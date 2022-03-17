@@ -19,7 +19,7 @@ public class Start {
         post();
     }
     public static  void post() throws IOException {
-
+        URL url = new URL("http://94.198.50.185:7081/api/users");
     }
 
     public static void getSesion(){
