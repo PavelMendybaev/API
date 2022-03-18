@@ -27,7 +27,7 @@ public class Start {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.add("Set-Cookie" , sesionId);
+        headers.set("Cookie" , sesionId);
 
         User user = new User(3L, "James" , "Brown" , (byte) 25);
         HttpEntity<User> request = new HttpEntity<>(user, headers);
@@ -43,35 +43,38 @@ public class Start {
 
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.add("set-cookie" , session);
+        headers.set("Cookie" , session);
 
 
         User user = new User(2L, "Thomas" , "Shelby" , (byte) 25);
         HttpEntity<User> request = new HttpEntity<>(user, headers);
 
 
-        ResponseEntity<String> response = restTemplate.exchange (url, HttpMethod.PUT , request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange (url , HttpMethod.PUT , request, String.class);
         System.out.println(response);
 
     }
     public static void delete(String session) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-
+//        ObjectMapper mapper = new ObjectMapper();
+//
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = restTemplate.headForHeaders(url+"/2");
 
+        HttpHeaders headers = restTemplate.headForHeaders(url);
+//
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.add("set-cookie" , session);
-
+        headers.set("Cookie" , session);
+//
 
         User user = new User(2L, "Thomas" , "Shelby" , (byte) 25);
-        HttpEntity<User> request = new HttpEntity<>(user, headers);
+        HttpEntity<String> request = new HttpEntity<String>(user.getLastName(), headers);
 
 
-        ResponseEntity<String> response = restTemplate.exchange (url, HttpMethod.DELETE , request, String.class);
+
+
+        ResponseEntity<String> response = restTemplate.exchange (url + "/3", HttpMethod.DELETE , request, String.class);
+
         System.out.println(response);
-
     }
 
     public static String getSesion() throws IOException {
@@ -107,6 +110,5 @@ public class Start {
         }
         System.out.println(sesionid);
         return sesionid;
-
     }
 }
